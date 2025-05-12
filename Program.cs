@@ -17,7 +17,7 @@ namespace test1
             using (var scope = host.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                // db.Database.Migrate(); // Solo si ya tenés migraciones
+                 db.Database.Migrate(); // Solo si ya tenés migraciones
             }
 
             host.Run();
