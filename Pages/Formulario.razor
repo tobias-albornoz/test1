@@ -1,53 +1,15 @@
-﻿@* @page "/formulario"
+﻿@page "/formulario"
 @using test1.Data
 @inject AppDbContext Db
 
 <h3>Formulario de Contacto</h3>
 
-<EditForm Model="@contacto" OnValidSubmit="ProcesarFormulario">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div>
-        <label>Nombre:</label>
-        <InputText @bind-Value="contacto.Nombre" class="form-control" />
-    </div>
-
-    <div>
-        <label>Email:</label>
-        <InputText @bind-Value="contacto.Email" class="form-control" />
-    </div>
-
-    <div>
-        <label>Edad:</label>
-        <InputNumber @bind-Value="contacto.Edad" class="form-control" />
-    </div>
-
-    <br />
-    <button type="submit" class="btn btn-primary">Enviar</button>
-</EditForm>
-
-@if (formularioEnviado)
+@if (!string.IsNullOrEmpty(mensaje))
 {
-    <p class="text-success">Formulario guardado en la base de datos.</p>
+    <div class="alert alert-success">
+        @mensaje
+    </div>
 }
-
-@code {
-    private Contacto contacto = new();
-    private bool formularioEnviado = false;
-
-    private async Task ProcesarFormulario()
-    {
-        Db.Contactos.Add(contacto);
-        await Db.SaveChangesAsync();
-        formularioEnviado = true;
-        contacto = new(); // Limpiar formulario
-    }
-}
- *@
- @page "/formulario"
-@using test1.Data
-@inject AppDbContext Db
 
 <EditForm Model="@contacto" OnValidSubmit="ProcesarFormulario">
     <DataAnnotationsValidator />
@@ -86,38 +48,42 @@
 
 @code {
     private Contacto contacto = new Contacto { Tutor = new Tutor() };
+    private string mensaje = string.Empty;
 
     private async Task ProcesarFormulario()
     {
-        // Si es menor de edad, un tutor debe ser proporcionado
-        if (contacto.EsMenorDeEdad)
+        try
         {
-            if (string.IsNullOrEmpty(contacto.Tutor?.Nombre) || string.IsNullOrEmpty(contacto.Tutor?.Email))
+            if (contacto.EsMenorDeEdad)
             {
-                // Validación de que el tutor debe tener nombre y email
-                Console.WriteLine("El tutor debe tener un nombre y email.");
-                return;
+                if (string.IsNullOrEmpty(contacto.Tutor?.Nombre) 
+                    || string.IsNullOrEmpty(contacto.Tutor?.Email))
+                {
+                    mensaje = "El tutor debe tener un nombre y un email.";
+                    return;
+                }
+
+                Db.Tutor.Add(contacto.Tutor);
+                await Db.SaveChangesAsync();
+                contacto.TutorId = contacto.Tutor.Id;
+            }
+            else
+            {
+                contacto.Tutor = null;
+                contacto.TutorId = null;
             }
 
-            // Guardar el tutor en la base de datos
-            Db.Tutor.Add(contacto.Tutor);
+            Db.Contactos.Add(contacto);
             await Db.SaveChangesAsync();
 
-            // Asignar el Tutor al contacto
-            contacto.TutorId = contacto.Tutor.Id;
+            mensaje = "Formulario procesado correctamente.";
+
+            // Limpiar el formulario
+            contacto = new Contacto { Tutor = new Tutor() };
         }
-        else
+        catch (Exception ex)
         {
-            // Si no es menor de edad, asegurate de que Tutor no sea null
-            contacto.Tutor = null;  // Evitar que el campo Tutor sea nulo
-            contacto.TutorId = null; // Asegurarse de que el TutorId también sea nulo
+            mensaje = $"Ocurrió un error al guardar: {ex.Message}";
         }
-
-        // Guardar el contacto en la base de datos
-        Db.Contactos.Add(contacto);
-        await Db.SaveChangesAsync();
-
-        Console.WriteLine("Formulario procesado correctamente.");
     }
-
 }
