@@ -1,0 +1,46 @@
+﻿@page "/formulario"
+@using test1.Data
+@inject AppDbContext Db
+
+<h3>Formulario de Contacto</h3>
+
+<EditForm Model="@contacto" OnValidSubmit="ProcesarFormulario">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombre:</label>
+        <InputText @bind-Value="contacto.Nombre" class="form-control" />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="contacto.Email" class="form-control" />
+    </div>
+
+    <div>
+        <label>Edad:</label>
+        <InputNumber @bind-Value="contacto.Edad" class="form-control" />
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</EditForm>
+
+@if (formularioEnviado)
+{
+    <p class="text-success">Formulario guardado en la base de datos.</p>
+}
+
+@code {
+    private Contacto contacto = new();
+    private bool formularioEnviado = false;
+
+    private async Task ProcesarFormulario()
+    {
+        Db.Contactos.Add(contacto);
+        await Db.SaveChangesAsync();
+        formularioEnviado = true;
+        contacto = new(); // Limpiar formulario
+    }
+}
