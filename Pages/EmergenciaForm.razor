@@ -1,0 +1,30 @@
+﻿@using test1.Models
+
+<div class="form-group">
+    <label>Nombre</label>
+    <InputText @bind-Value="ContactoEmergencia.Nombre" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Apellido</label>
+    <InputText @bind-Value="ContactoEmergencia.Apellido" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Correo Electrónico</label>
+    <InputText @bind-Value="ContactoEmergencia.Mail" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Código de Área</label>
+    <InputText @bind-Value="ContactoEmergencia.CodAreaTelefono" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Teléfono</label>
+    <InputText @bind-Value="ContactoEmergencia.NroTelefono" class="form-control" />
+</div>
+
+@code {
+    [Parameter] public ContactoEmergencia ContactoEmergencia { get; set; }
+}

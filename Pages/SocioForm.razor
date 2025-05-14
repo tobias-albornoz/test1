@@ -1,7 +1,6 @@
 ﻿@page "/socioform"
 @using test1.Models
-@inject Services.SocioService SocioService
-@inject Services.TipoDocumentoService TipoDocumentoService
+@using test1.Services
 
 <h3>Formulario de Socio</h3>
 
@@ -10,129 +9,22 @@
     <ValidationSummary />
 
     <!-- Datos personales -->
-    <div class="form-group">
-        <label>Fecha Alta</label>
-        <InputDate @bind-Value="socio.FechaAlta" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Nombre</label>
-        <InputText @bind-Value="socio.Nombre" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Apellido</label>
-        <InputText @bind-Value="socio.Apellido" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Fecha de Nacimiento</label>
-        <InputDate @bind-Value="socio.FechaNac" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Correo Electrónico</label>
-        <InputText @bind-Value="socio.Mail" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Código de Área</label>
-        <InputText @bind-Value="socio.CodAreaTelefono" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Teléfono</label>
-        <InputText @bind-Value="socio.NroTelefono" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Dirección</label>
-        <InputText @bind-Value="socio.Direccion" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Tipo de Documento</label>
-        <InputSelect @bind-Value="socio.TipoDocumentoId" class="form-control">
-            <option value="">Seleccione...</option>
-            @if (tipoDocumento != null)
-            {
-                foreach (var tipo in tipoDocumento)
-                {
-                    <option value="@tipo.Id">@tipo.Descripcion</option>
-                }
-            }
-        </InputSelect>
-    </div>
-
-    <div class="form-group">
-        <label>Número de Documento</label>
-        <InputText @bind-Value="socio.NroDoc" class="form-control" />
-    </div>
+    <PersonalDataForm Socio="@socio" TipoDocumentoList="@tipoDocumento" />
 
     <!-- Archivos -->
     <h5 class="mt-4">Documentación</h5>
-    <div class="form-group">
-        <label>Apto Físico</label>
-        <InputText @bind-Value="socio.Archivos.AptoFisico" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Documento Frente</label>
-        <InputText @bind-Value="socio.Archivos.DocFrente" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Documento Dorso</label>
-        <InputText @bind-Value="socio.Archivos.DocDorso" class="form-control" />
-    </div>
+    <ArchivosForm Archivos="@socio.Archivos" />
 
     <!-- Contacto de emergencia -->
     <h5 class="mt-4">Contacto de Emergencia</h5>
-    <div class="form-group">
-        <label>Nombre</label>
-        <InputText @bind-Value="socio.ContactoEmergencia.Nombre" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Apellido</label>
-        <InputText @bind-Value="socio.ContactoEmergencia.Apellido" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Correo Electrónico</label>
-        <InputText @bind-Value="socio.ContactoEmergencia.Mail" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Código de Área</label>
-        <InputText @bind-Value="socio.ContactoEmergencia.CodAreaTelefono" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Teléfono</label>
-        <InputText @bind-Value="socio.ContactoEmergencia.NroTelefono" class="form-control" />
-    </div>
+    <EmergenciaForm ContactoEmergencia="@socio.ContactoEmergencia" />
 
     <button type="submit" class="btn btn-primary mt-3">Crear Socio</button>
 </EditForm>
 
-@code {
-    private Socio socio = new Socio
-        {
-            Archivos = new Archivos(),
-            ContactoEmergencia = new ContactoEmergencia()
-        };
-
-    private List<TipoDocumento> tipoDocumento = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        tipoDocumento = await TipoDocumentoService.GetAllAsync();
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        await SocioService.CrearSocioAsync(socio);
-        // Resetear o redirigir
-    }
+@if (mensajeExito)
+{
+    <div class="alert alert-success mt-3">
+        Socio creado exitosamente.
+    </div>
 }

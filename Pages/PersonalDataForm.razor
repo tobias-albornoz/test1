@@ -1,0 +1,62 @@
+﻿@using test1.Models
+
+<div class="form-group">
+    <label>Fecha Alta</label>
+    <InputDate @bind-Value="Socio.FechaAlta" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Nombre</label>
+    <InputText @bind-Value="Socio.Nombre" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Apellido</label>
+    <InputText @bind-Value="Socio.Apellido" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Fecha de Nacimiento</label>
+    <InputDate @bind-Value="Socio.FechaNac" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Correo Electrónico</label>
+    <InputText @bind-Value="Socio.Mail" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Código de Área</label>
+    <InputText @bind-Value="Socio.CodAreaTelefono" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Teléfono</label>
+    <InputText @bind-Value="Socio.NroTelefono" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Dirección</label>
+    <InputText @bind-Value="Socio.Direccion" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Tipo de Documento</label>
+    <InputSelect @bind-Value="Socio.TipoDocumentoId" class="form-control">
+        <option value="">Seleccione...</option>
+        @foreach (var tipo in TipoDocumentoList)
+        {
+            <option value="@tipo.Id">@tipo.Descripcion</option>
+        }
+    </InputSelect>
+</div>
+
+<div class="form-group">
+    <label>Número de Documento</label>
+    <InputText @bind-Value="Socio.NroDoc" class="form-control" />
+</div>
+
+@code {
+    [Parameter] public Socio Socio { get; set; }
+    [Parameter] public List<TipoDocumento> TipoDocumentoList { get; set; }
+}
