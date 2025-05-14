@@ -50,10 +50,10 @@ namespace test1.Models
 
 
         // Relaciones
-        public TipoDocumento TipoDocumento { get; set; }
+        public MultiplesOpciones TipoDocumento { get; set; }
         public Archivos Archivos { get; set; }
         public ContactoEmergencia ContactoEmergencia { get; set; }
-        public TipoPago TipoPago { get; set; }
+        public MultiplesOpciones TipoPago { get; set; }
 
         public ICollection<Membresia> Membresias { get; set; }
     }

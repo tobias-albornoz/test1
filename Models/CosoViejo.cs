@@ -3,20 +3,20 @@
 
 namespace test1.Models
 {
-    public class Tutor
-    {
-        [Key]
-        public int Id { get; set; }
+    //public class Tutor
+    //{
+    //[Key]
+    //public int Id { get; set; }
 
-        [Required]
-        public string Nombre { get; set; }
+    //[Required]
+    //public string Nombre { get; set; }
 
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-    }
+    //[Required]
+    //[EmailAddress]
+    //public string Email { get; set; }
+    //}
 
-    public class Contacto
+    public class CosoViejo
     {
         [Key]
         public int Id { get; set; }
