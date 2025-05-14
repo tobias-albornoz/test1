@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using test1.Data;
+using test1.Services;
 
 namespace test1
 {
@@ -24,6 +25,10 @@ namespace test1
 
             //  Agregamos EF Core con SQL Server
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<SocioService>();
+            services.AddScoped<TipoDocumentoService>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,6 +42,9 @@ namespace test1
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+   
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

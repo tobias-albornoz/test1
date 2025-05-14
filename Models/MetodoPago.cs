@@ -37,10 +37,10 @@ namespace test1.Models
         public int? Lote { get; set; }
 
         // Relaciones
-        public MultiplesOpciones TipoDocumento { get; set; }
+        public TipoDocumento TipoDocumento { get; set; }
 
-        public MultiplesOpciones TipoCuentaBancaria { get; set; }
+        public TipoCuentaBancaria TipoCuentaBancaria { get; set; }
 
-        public MultiplesOpciones TipoPago { get; set; }
+        public TipoPago TipoPago { get; set; }
     }
 }

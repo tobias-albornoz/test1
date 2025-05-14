@@ -7,9 +7,9 @@ namespace test1.Models
         [Key]
         public int Id { get; set; }
 
-        public int SocioId { get; set; }  //lo necesitamos??????????????
-
         [Required]
+        public int SocioId { get; set; }  
+
         public int? SocioReferenteId { get; set; }
 
         public int TipoRelacionId { get; set; }
@@ -21,7 +21,7 @@ namespace test1.Models
 
         public Socio SocioReferente { get; set; }
 
-        public MultiplesOpciones TipoRelacion { get; set; }
+        public TipoRelacion TipoRelacion { get; set; }
 
         public TipoSocio TipoSocio { get; set; }
     }

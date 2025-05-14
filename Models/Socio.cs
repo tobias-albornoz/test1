@@ -18,43 +18,40 @@ namespace test1.Models
         public string Apellido { get; set; }
 
         [Required]
-        public DateTime FechaNacimiento { get; set; }
+        public DateTime FechaNac { get; set; }
 
-        [Required]
+        //[Required]
         [EmailAddress]
         public string Mail { get; set; }
 
-        [Required]
+        //[Required]
         public string CodAreaTelefono { get; set; }
 
-        [Required]
+        //[Required]
         public string NroTelefono { get; set; }
 
-        [Required]
+        //[Required]
         public string Direccion { get; set; }
 
-        [Required]
+        //[Required]
         public int TipoDocumentoId { get; set; }
 
-        [Required]
+        //[Required]
         public string NroDoc { get; set; }
 
-        [Required]
+        //[Required]
         public int ArchivosId { get; set; }
 
-        [Required]
+        //[Required]
         public int ContactoEmergenciaId { get; set; }
-
-        [Required]
-        public int TipoPagoId { get; set; }
 
 
         // Relaciones
-        public MultiplesOpciones TipoDocumento { get; set; }
+        public TipoDocumento TipoDocumento { get; set; }
         public Archivos Archivos { get; set; }
         public ContactoEmergencia ContactoEmergencia { get; set; }
-        public MultiplesOpciones TipoPago { get; set; }
 
         public ICollection<Membresia> Membresias { get; set; }
+
     }
 }

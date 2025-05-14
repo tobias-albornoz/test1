@@ -1,89 +1,89 @@
-﻿@page "/formulario"
-@using test1.Data
-@inject AppDbContext Db
+﻿@* @page "/formulario" *@
+@* @using test1.Data *@
+@* @inject AppDbContext Db *@
 
-<h3>Formulario de Contacto</h3>
+@* <h3>Formulario de Contacto</h3> *@
 
-@if (!string.IsNullOrEmpty(mensaje))
-{
-    <div class="alert alert-success">
-        @mensaje
-    </div>
-}
+@* @if (!string.IsNullOrEmpty(mensaje)) *@
+@* { *@
+@*     <div class="alert alert-success"> *@
+@*         @mensaje *@
+@*     </div> *@
+@* } *@
 
-<EditForm Model="@contacto" OnValidSubmit="ProcesarFormulario">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+@* <EditForm Model="@contacto" OnValidSubmit="ProcesarFormulario"> *@
+@*     <DataAnnotationsValidator /> *@
+@*     <ValidationSummary /> *@
 
-    <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <InputText id="nombre" class="form-control" @bind-Value="contacto.Nombre" />
-    </div>
+@*     <div class="form-group"> *@
+@*         <label for="nombre">Nombre</label> *@
+@*         <InputText id="nombre" class="form-control" @bind-Value="contacto.Nombre" /> *@
+@*     </div> *@
 
-    <div class="form-group">
-        <label for="email">Email</label>
-        <InputText id="email" class="form-control" @bind-Value="contacto.Email" />
-    </div>
+@*     <div class="form-group"> *@
+@*         <label for="email">Email</label> *@
+@*         <InputText id="email" class="form-control" @bind-Value="contacto.Email" /> *@
+@*     </div> *@
 
-    <div class="form-group">
-        <label for="edad">Edad</label>
-        <InputNumber id="edad" class="form-control" @bind-Value="contacto.Edad" />
-    </div>
+@*     <div class="form-group"> *@
+@*         <label for="edad">Edad</label> *@
+@*         <InputNumber id="edad" class="form-control" @bind-Value="contacto.Edad" /> *@
+@*     </div> *@
 
-    @if (contacto.EsMenorDeEdad)
-    {
-        <div class="form-group">
-            <label for="tutorNombre">Nombre del Tutor</label>
-            <InputText id="tutorNombre" class="form-control" @bind-Value="contacto.Tutor.Nombre" />
-        </div>
+@*     @if (contacto.EsMenorDeEdad) *@
+@*     { *@
+@*         <div class="form-group"> *@
+@*             <label for="tutorNombre">Nombre del Tutor</label> *@
+@*             <InputText id="tutorNombre" class="form-control" @bind-Value="contacto.Tutor.Nombre" /> *@
+@*         </div> *@
 
-        <div class="form-group">
-            <label for="tutorEmail">Email del Tutor</label>
-            <InputText id="tutorEmail" class="form-control" @bind-Value="contacto.Tutor.Email" />
-        </div>
-    }
+@*         <div class="form-group"> *@
+@*             <label for="tutorEmail">Email del Tutor</label> *@
+@*             <InputText id="tutorEmail" class="form-control" @bind-Value="contacto.Tutor.Email" /> *@
+@*         </div> *@
+@*     } *@
 
-    <button type="submit" class="btn btn-primary">Enviar</button>
-</EditForm>
+@*     <button type="submit" class="btn btn-primary">Enviar</button> *@
+@* </EditForm> *@
 
-@code {
-    private Contacto contacto = new Contacto { Tutor = new Tutor() };
-    private string mensaje = string.Empty;
+@* @code { *@
+@*     private Contacto contacto = new Contacto { Tutor = new Tutor() }; *@
+@*     private string mensaje = string.Empty; *@
 
-    private async Task ProcesarFormulario()
-    {
-        try
-        {
-            if (contacto.EsMenorDeEdad)
-            {
-                if (string.IsNullOrEmpty(contacto.Tutor?.Nombre) 
-                    || string.IsNullOrEmpty(contacto.Tutor?.Email))
-                {
-                    mensaje = "El tutor debe tener un nombre y un email.";
-                    return;
-                }
+@*     private async Task ProcesarFormulario() *@
+@*     { *@
+@*         try *@
+@*         { *@
+@*             if (contacto.EsMenorDeEdad) *@
+@*             { *@
+@*                 if (string.IsNullOrEmpty(contacto.Tutor?.Nombre)  *@
+@*                     || string.IsNullOrEmpty(contacto.Tutor?.Email)) *@
+@*                 { *@
+@*                     mensaje = "El tutor debe tener un nombre y un email."; *@
+@*                     return; *@
+@*                 } *@
 
-                Db.Tutor.Add(contacto.Tutor);
-                await Db.SaveChangesAsync();
-                contacto.TutorId = contacto.Tutor.Id;
-            }
-            else
-            {
-                contacto.Tutor = null;
-                contacto.TutorId = null;
-            }
+@*                 Db.Tutor.Add(contacto.Tutor); *@
+@*                 await Db.SaveChangesAsync(); *@
+@*                 contacto.TutorId = contacto.Tutor.Id; *@
+@*             } *@
+@*             else *@
+@*             { *@
+@*                 contacto.Tutor = null; *@
+@*                 contacto.TutorId = null; *@
+@*             } *@
 
-            Db.Contactos.Add(contacto);
-            await Db.SaveChangesAsync();
+@*             Db.Contactos.Add(contacto); *@
+@*             await Db.SaveChangesAsync(); *@
 
-            mensaje = "Formulario procesado correctamente.";
+@*             mensaje = "Formulario procesado correctamente."; *@
 
-            // Limpiar el formulario
-            contacto = new Contacto { Tutor = new Tutor() };
-        }
-        catch (Exception ex)
-        {
-            mensaje = $"Ocurrió un error al guardar: {ex.Message}";
-        }
-    }
-}
+@*             // Limpiar el formulario *@
+@*             contacto = new Contacto { Tutor = new Tutor() }; *@
+@*         } *@
+@*         catch (Exception ex) *@
+@*         { *@
+@*             mensaje = $"Ocurrió un error al guardar: {ex.Message}"; *@
+@*         } *@
+@*     } *@
+@* } *@

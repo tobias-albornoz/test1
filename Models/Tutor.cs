@@ -33,6 +33,6 @@ namespace test1.Models
         public string NroTelefono { get; set; }
 
         // Relaciones
-        public MultiplesOpciones TipoDocumento { get; set; }
+        public TipoDocumento TipoDocumento { get; set; }
     }
 }
