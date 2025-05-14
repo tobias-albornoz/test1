@@ -19,6 +19,38 @@
     <h5 class="mt-4">Contacto de Emergencia</h5>
     <EmergenciaForm ContactoEmergencia="@socio.ContactoEmergencia" />
 
+    <!-- Selector de tipo Inscripción -->
+    <div class="card-deck mb-4">
+        <div class="card @(tipoFormularioSeleccionado == "Socio" ? "border-primary" : "")"
+             @onclick="SeleccionarSocio">
+            <div class="card-body text-center">
+                <h5 class="card-title">Socio</h5>
+                <p class="card-text">Formulario para inscripción completa de socio.</p>
+            </div>
+        </div>
+        <div class="card @(tipoFormularioSeleccionado == "Escuelita" ? "border-primary" : "")"
+             @onclick="SeleccionarEscuelita">
+            <div class="card-body text-center">
+                <h5 class="card-title">Escuelita Deportiva</h5>
+                <p class="card-text">Solo actividades deportivas para niños.</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    @if (tipoFormularioSeleccionado == "Socio")
+    {
+        <h5 class="mt-4">Implementar formulario para Socio</h5>
+
+    }
+    else if (tipoFormularioSeleccionado == "Escuelita")
+    {
+        <h5 class="mt-4">Implementar formulario para Escuelita</h5>
+    }
+
     <button type="submit" class="btn btn-primary mt-3">Crear Socio</button>
 </EditForm>
 
@@ -28,3 +60,5 @@
         Socio creado exitosamente.
     </div>
 }
+
+

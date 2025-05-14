@@ -8,6 +8,19 @@ namespace test1.Pages
 {
     public partial class SocioForm : ComponentBase
     {
+        private string tipoFormularioSeleccionado = "Socio";
+
+        private void SeleccionarSocio()
+        {
+            tipoFormularioSeleccionado = "Socio";
+        }
+
+        private void SeleccionarEscuelita()
+        {
+            tipoFormularioSeleccionado = "Escuelita";
+        }
+
+
         private Socio socio = new Socio
         {
             Archivos = new Archivos(),
