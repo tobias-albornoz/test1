@@ -1,11 +1,10 @@
 ﻿@using test1.Models
 
 <div class="form-group">
-    <label>Fecha Alta</label>
-    <InputDate @bind-Value="Socio.FechaAlta" class="form-control" />
+    <InputDate  @bind-Value="Socio.FechaAlta" class="form-control" />
 </div>
 
-<div class="form-group">
+@* <div class="form-group">
     <label>Nombre</label>
     <InputText @bind-Value="Socio.Nombre" class="form-control" />
 </div>
@@ -13,37 +12,21 @@
 <div class="form-group">
     <label>Apellido</label>
     <InputText @bind-Value="Socio.Apellido" class="form-control" />
+</div> *@
+<h6>Informacion Personal*</h6><br />
+<div class="row">
+    <div class="col-md-6 form-group">
+        <InputText @bind-Value="Socio.Nombre" class="form-control" placeholder="Nombre" />
+    </div>
+    <div class="col-md-6 form-group">
+        <InputText @bind-Value="Socio.Apellido" class="form-control" placeholder="Apellido" />
+    </div>
 </div>
 
-<div class="form-group">
-    <label>Fecha de Nacimiento</label>
-    <InputDate @bind-Value="Socio.FechaNac" class="form-control" />
-</div>
-
-<div class="form-group">
-    <label>Correo Electrónico</label>
-    <InputText @bind-Value="Socio.Mail" class="form-control" />
-</div>
-
-<div class="form-group">
-    <label>Código de Área</label>
-    <InputText @bind-Value="Socio.CodAreaTelefono" class="form-control" />
-</div>
-
-<div class="form-group">
-    <label>Teléfono</label>
-    <InputText @bind-Value="Socio.NroTelefono" class="form-control" />
-</div>
-
-<div class="form-group">
-    <label>Dirección</label>
-    <InputText @bind-Value="Socio.Direccion" class="form-control" />
-</div>
-
-<div class="form-group">
+@* <div class="form-group">
     <label>Tipo de Documento</label>
     <InputSelect @bind-Value="Socio.TipoDocumentoId" class="form-control">
-        <option value="">Seleccione...</option>
+        <option value="">Tipo</option>
         @foreach (var tipo in TipoDocumentoList)
         {
             <option value="@tipo.Id">@tipo.Descripcion</option>
@@ -54,9 +37,100 @@
 <div class="form-group">
     <label>Número de Documento</label>
     <InputText @bind-Value="Socio.NroDoc" class="form-control" />
+</div> *@
+
+<div class="row">
+    <div class="col-md-6">
+        <label>Documento</label>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <InputSelect @bind-Value="Socio.TipoDocumentoId" class="form-control">
+                    <option value="">Tipo</option>
+                    @foreach (var tipo in TipoDocumentoList)
+                    {
+                        <option value="@tipo.Id">@tipo.Descripcion</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-8 form-group">
+                <InputText @bind-Value="Socio.NroDoc" class="form-control" placeholder="Numero"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>Fecha de Nacimiento</label>
+        <InputDate @bind-Value="Socio.FechaNac" class="form-control"
+                   min="@FechaMinNacimiento.ToString("yyyy-MM-dd")"
+                   max="@FechaMaxNacimiento.ToString("yyyy-MM-dd")"
+                   placeholder="Fecha de Nacimiento" />
+    </div>
 </div>
+
+@* <div class="form-group">
+    <label>Fecha de Nacimiento</label>
+    <InputDate @bind-Value="Socio.FechaNac" class="form-control" />
+</div> *@
+
+
+<hr />
+<h4>Información de Contacto</h4>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <InputText @bind-Value="Socio.Mail" class="form-control" placeholder="Correo@ejemplo.com" />
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <InputText @bind-Value="Socio.CodAreaTelefono" class="form-control" placeholder="Cod de Area" />
+            </div>
+            <div class="col-md-8 form-group">
+                <InputText @bind-Value="Socio.NroTelefono" class="form-control" placeholder="Numero de Teléfono" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@* 
+<div class="form-group">
+    <label>Correo Electrónico</label>
+    <InputText @bind-Value="Socio.Mail" class="form-control" placeholder="Correo Electronico"/>
+</div>
+
+<div class="form-group">
+    <label>Código de Área</label>
+    <InputText @bind-Value="Socio.CodAreaTelefono" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label>Teléfono</label>
+    <InputText @bind-Value="Socio.NroTelefono" class="form-control" />
+</div> *@
+
+<div class="form-group">
+    <label>Dirección</label>
+    <InputText @bind-Value="Socio.Direccion" class="form-control" />
+</div>
+
+
 
 @code {
     [Parameter] public Socio Socio { get; set; }
     [Parameter] public List<TipoDocumento> TipoDocumentoList { get; set; }
+
+    private DateTime FechaMinNacimiento;
+    private DateTime FechaMaxNacimiento;
+    
+    protected override void OnInitialized()
+    {
+        Socio.FechaAlta = DateTime.Now;
+        Socio.FechaNac = DateTime.Now;
+        ActualizarLimitesFechaNacimiento();
+
+    }
+    private void ActualizarLimitesFechaNacimiento()
+    {
+        FechaMaxNacimiento = DateTime.Now.Date; // Establecer la fecha máxima como el día de hoy
+        FechaMinNacimiento = FechaMaxNacimiento.AddYears(-120);
+    }
 }
