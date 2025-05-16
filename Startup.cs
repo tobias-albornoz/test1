@@ -28,6 +28,7 @@ namespace test1
 
             services.AddScoped<SocioService>();
             services.AddScoped<TipoDocumentoService>();
+            services.AddScoped<ProvinciasService>();
 
         }
 

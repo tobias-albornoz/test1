@@ -27,6 +27,7 @@ namespace test1.Data
         public DbSet<MetodoPagoXSocio> MetodoPagoXSocio { get; set; }
         public DbSet<SocioTutor> SocioTutor { get; set; }
         public DbSet<SocioActividad> SocioActividad { get; set; }
+        public DbSet<Provincias> Provincias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

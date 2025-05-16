@@ -2,21 +2,23 @@
 @using test1.Models
 @using test1.Services
 
-<h3>Formulario de Socio</h3>
+<h1>Formulario de Socio</h1>
 
 <EditForm Model="@socio" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <!-- Datos personales -->
-    <PersonalDataForm Socio="@socio" TipoDocumentoList="@tipoDocumento" />
+    <PersonalDataForm Socio="@socio" TipoDocumentoList="@tipoDocumento" ProvinciasList="@provincias" />
 
     <!-- Archivos -->
-    <h5 class="mt-4">Documentación</h5>
+    <hr />
+    <h4 class="mt-4">Documentación</h4>
     <ArchivosForm Archivos="@socio.Archivos" />
 
     <!-- Contacto de emergencia -->
-    <h5 class="mt-4">Contacto de Emergencia</h5>
+    <hr />
+    <h4 class="mt-4">Contacto de Emergencia</h4>
     <EmergenciaForm ContactoEmergencia="@socio.ContactoEmergencia" />
 
     <!-- Selector de tipo Inscripción -->

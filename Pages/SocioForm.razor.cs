@@ -30,15 +30,22 @@ namespace test1.Pages
         private List<TipoDocumento> tipoDocumento = new();
         private bool mensajeExito = false;  // Para mostrar el mensaje de éxito
 
+        private List<Provincias> provincias = new();
+
+
         [Inject]
         private SocioService SocioService { get; set; }
 
         [Inject]
         private TipoDocumentoService TipoDocumentoService { get; set; }
 
+        [Inject]
+        private ProvinciasService ProvinciasService { get; set; }  
+
         protected override async Task OnInitializedAsync()
         {
             tipoDocumento = await TipoDocumentoService.GetAllAsync();
+            provincias = await ProvinciasService.GetAllAsync(); 
         }
 
         private async Task HandleValidSubmit()

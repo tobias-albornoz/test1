@@ -1,19 +1,12 @@
-﻿@using test1.Models
+﻿@using test1.Data
+@using test1.Models
+@using test1.Services
 
 <div class="form-group">
-    <InputDate  @bind-Value="Socio.FechaAlta" class="form-control" />
+    <InputDate hidden @bind-Value="Socio.FechaAlta" class="form-control" />
 </div>
 
-@* <div class="form-group">
-    <label>Nombre</label>
-    <InputText @bind-Value="Socio.Nombre" class="form-control" />
-</div>
-
-<div class="form-group">
-    <label>Apellido</label>
-    <InputText @bind-Value="Socio.Apellido" class="form-control" />
-</div> *@
-<h6>Informacion Personal*</h6><br />
+<h4>Informacion Personal*</h4><br />
 <div class="row">
     <div class="col-md-6 form-group">
         <InputText @bind-Value="Socio.Nombre" class="form-control" placeholder="Nombre" />
@@ -22,22 +15,6 @@
         <InputText @bind-Value="Socio.Apellido" class="form-control" placeholder="Apellido" />
     </div>
 </div>
-
-@* <div class="form-group">
-    <label>Tipo de Documento</label>
-    <InputSelect @bind-Value="Socio.TipoDocumentoId" class="form-control">
-        <option value="">Tipo</option>
-        @foreach (var tipo in TipoDocumentoList)
-        {
-            <option value="@tipo.Id">@tipo.Descripcion</option>
-        }
-    </InputSelect>
-</div>
-
-<div class="form-group">
-    <label>Número de Documento</label>
-    <InputText @bind-Value="Socio.NroDoc" class="form-control" />
-</div> *@
 
 <div class="row">
     <div class="col-md-6">
@@ -66,11 +43,6 @@
     </div>
 </div>
 
-@* <div class="form-group">
-    <label>Fecha de Nacimiento</label>
-    <InputDate @bind-Value="Socio.FechaNac" class="form-control" />
-</div> *@
-
 
 <hr />
 <h4>Información de Contacto</h4>
@@ -91,25 +63,32 @@
     </div>
 </div>
 
-@* 
-<div class="form-group">
-    <label>Correo Electrónico</label>
-    <InputText @bind-Value="Socio.Mail" class="form-control" placeholder="Correo Electronico"/>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label>Calle</label>
+        <InputText @bind-Value="calle" class="form-control" placeholder="Calle" />
+    </div>
+    <div class="col-md-3 form-group">
+        <label>Número</label>
+        <InputText @bind-Value="numeroDireccion" class="form-control" placeholder="Número" />
+    </div>
+    <div class="col-md-3 form-group">
+        <label>Localidad</label>
+        <InputText @bind-Value="localidad" class="form-control" placeholder="Localidad" />
+    </div>
 </div>
 
 <div class="form-group">
-    <label>Código de Área</label>
-    <InputText @bind-Value="Socio.CodAreaTelefono" class="form-control" />
-</div>
+    <label>Provincia</label>
+    <InputSelect @bind-Value="provinciaId" class="form-control">
+        <option value="">Seleccione Provincia</option>
+        @foreach (var provincias in ProvinciasList)
+        {
+            <option value="@provincias.Id">@provincias.Descripcion</option>
 
-<div class="form-group">
-    <label>Teléfono</label>
-    <InputText @bind-Value="Socio.NroTelefono" class="form-control" />
-</div> *@
-
-<div class="form-group">
-    <label>Dirección</label>
-    <InputText @bind-Value="Socio.Direccion" class="form-control" />
+        }
+    </InputSelect>
 </div>
 
 
@@ -117,10 +96,16 @@
 @code {
     [Parameter] public Socio Socio { get; set; }
     [Parameter] public List<TipoDocumento> TipoDocumentoList { get; set; }
+    [Parameter] public List<Provincias> ProvinciasList { get; set; }
 
     private DateTime FechaMinNacimiento;
     private DateTime FechaMaxNacimiento;
-    
+    private string calle = "";
+    private string numeroDireccion = "";
+    private string localidad = "";
+    private int provinciaId;
+
+
     protected override void OnInitialized()
     {
         Socio.FechaAlta = DateTime.Now;
@@ -132,5 +117,13 @@
     {
         FechaMaxNacimiento = DateTime.Now.Date; // Establecer la fecha máxima como el día de hoy
         FechaMinNacimiento = FechaMaxNacimiento.AddYears(-120);
+    }
+
+    public void ActualizarDireccionSocio()
+    {
+        // Busca la descripción de la provincia basada en el ID seleccionado
+        var provinciaSeleccionada = ProvinciasList?.FirstOrDefault(p => p.Id == provinciaId)?.Descripcion;
+
+        Socio.Direccion = $"{calle?.Trim() ?? ""},{numeroDireccion?.Trim() ?? ""},{localidad?.Trim() ?? ""},{provinciaSeleccionada?.Trim() ?? ""}";
     }
 }
